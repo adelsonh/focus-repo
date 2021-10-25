@@ -1,0 +1,7 @@
+replicaCount: 1
+
+image: 
+      repository: us.gcr.io/kubernetes-helm-challenge-jg/hello-app
+      pullPolicy: IfNotPresent
+
+      tag: "V1"

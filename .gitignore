@@ -1,0 +1,5 @@
+#sensitive data
+terraform.tfvars
+*.tfvars
+
+
