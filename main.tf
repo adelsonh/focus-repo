@@ -16,7 +16,7 @@ resource "digitalocean_kubernetes_cluster" "focus" {
 
 }
 
-resource "kubernetes_pod" "test-focus" {
+resource "kubernetes_pod" "test" {
   metadata {
     name = "test-focus"
   }
