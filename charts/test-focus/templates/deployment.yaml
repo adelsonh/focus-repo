@@ -1,51 +1,67 @@
-apiVersion: apps/v1beta2
-kind: Deployment
-metadata:
-  name: {{ template "test-focus.fullname" . }}
-  labels:
-    app: {{ template "test-focus.name" . }}
-    chart: {{ template "test-focus.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-spec:
-  replicas: {{ .Values.replicaCount }}
-  selector:
-    matchLabels:
-      app: {{ template "test-focus.name" . }}
-      release: {{ .Release.Name }}
-  template:
-    metadata:
-      labels:
-        app: {{ template "test-focus.name" . }}
-        release: {{ .Release.Name }}
-    spec:
-      containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /html
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /html
-              port: http
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+apiVersion: aplicaciones / v1 
+tipo: 
+Metadatos de implementación : 
+  nombre: {{.Release.Name}} 
+  etiquetas: 
+    aplicación: {{.Release.Name}} 
+    categoría: microgateway 
+spec: 
+  réplicas: {{.Values.replicaCount}} 
+  selector: 
+    matchLabels : 
+      aplicación: {{.Release.Name}} 
+  plantilla: 
+    metadatos: 
+      etiquetas: 
+        aplicación: {{.Release.Name}} 
+      anotaciones: 
+        prometheus.io/scrape: "{{.Values.metrics.prometheus}}" 
+    especificación: 
+      contenedores : 
+        - nombre: {{.Release.Name}} 
+          imagen: "{{.Values.image.repository}}: {{.Values.image.tag}}"
+          imagePullPolicy: {{.Values.image.pullPolicy}} 
+          puertos: 
+            - nombre: http 
+              containerPort: {{.Values.image.containerPort}} 
+              protocolo: TCP 
+          livenessProbe: 
+            exec: 
+              comando: 
+              - / bin / sh 
+              - -c 
+              - / opt /softwareag/Microgateway/files/k8s-lifenesscheck.sh 
+            initialDelaySeconds: 10 
+            periodSeconds: 10 
+            timeoutSeconds: 5 
+            failureThreshold: 3 
+          readinessProbe: 
+            exec: 
+              command: 
+              - / bin / sh 
+              - -c
+              - /opt/softwareag/Microgateway/files/k8s-readinesscheck.sh 
+            initialDelaySeconds: 10 
+            periodSeconds: 10 
+            timeoutSeconds: 5 
+            failureThreshold: 3 
+        {{- if .Values.sidecarimage}} 
+        - nombre: "{{.Values.sidecarimage.name} } " 
+          imagen:" {{.Values.sidecarimage.repository}}: 
+                  {{.Values.sidecarimage.tag}} " 
+          imagePullPolicy: {{.Values.sidecarimage.pullPolicy}} 
+        {{- end}} 
+          recursos: 
+            {{- toYaml .Values.resources | nindent 12}} 
+      {{- con .Values.nodeSelector}} 
+      nodeSelector: 
+        {{- toYaml. | nindent 8}}
+      {{- end}} 
+    {{- con .Values.affinity}} 
+      afinidad: 
+        {{- toYaml. | nindent 8}} 
+    {{- end}} 
+    {{- con .Values.tolerations}} 
+      tolerancias: 
+        {{- toYaml. | nindent 8}} 
+    {{- end}}

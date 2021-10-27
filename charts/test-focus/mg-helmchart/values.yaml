@@ -1,0 +1,43 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+ 
+replicaCount: 1
+ 
+# The Microgateway Docker image
+image:
+  repository: localhost:5000/mg-node-tours
+  tag: latest
+  containerPort: 7072
+  pullPolicy: IfNotPresent
+ 
+# The sidecar Docker image of the native service (if used, uncomment 
+and adapt values)
+sidecarimage:
+  repository: localhost:5000/node-tours
+  tag: latest
+  name: sidecar-node
+  pullPolicy: IfNotPresent
+ 
+metrics:
+  prometheus: true
+ 
+service:
+  type: NodePort
+  # type: LoadBalancer
+  port: 7072
+ 
+ingress:
+  enabled: false
+  paths: []
+  hosts: []
+  tls: []
+ 
+resources: {}
+  # We usually recommend not to specify default resources and to leave this 
+as a conscious   # choice for the user.
+ 
+nodeSelector: {}
+ 
+tolerations: []
+ 
+affinity: {}

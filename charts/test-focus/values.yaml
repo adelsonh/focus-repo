@@ -1,29 +1,43 @@
-replicaCount: 1
-
-image:
-  repository:
-  tag:
-  pullPolicy: Always
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: true
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - chart-example.local
-  tls: []
-
-
-resources: {}
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+# Este es un archivo con formato YAML. 
+# Declare las variables que se pasarán a sus plantillas. 
+ 
+replicaCount: 1 
+ 
+# La imagen de la 
+imagen de Docker de Microgateway : 
+  repository: localhost: 5000 / mg-node-tours 
+  tag: latest 
+  containerPort: 7072 
+  pullPolicy: IfNotPresent 
+ 
+# La imagen de Docker del sidecar del servicio nativo (si se usa, descomente 
+y adapte los valores) 
+sidecarimage: 
+  repositorio: localhost: 5000 / node-tours 
+  etiqueta: último 
+  nombre: sidecar-node 
+  pullPolicy: IfNotPresent 
+ 
+métricas: 
+  prometheus: true 
+ 
+servicio: 
+  tipo: NodePort 
+  # tipo: LoadBalancer 
+  puerto: 7072 
+ 
+ingreso: 
+  habilitado: falso
+  rutas: [] 
+  hosts: [] 
+  tls: [] 
+ 
+recursos: {} 
+  # Por lo general, recomendamos no especificar los recursos predeterminados y dejar esto 
+como una # elección consciente para el usuario. 
+ 
+nodeSelector: {} toleraciones: 
+ 
+[] 
+ 
+afinidad: {}
