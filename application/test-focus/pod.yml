@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: focus-pod
+spec:
+  containers:
+    name: focus-pod
+    image: adelson77/repo-focus:latest

@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image: 
-      repository: us.gcr.io/kubernetes-helm-challenge-jg/hello-app
+      repository: https://github.com/adelsonh/focus-repo.git
       pullPolicy: IfNotPresent
 
       tag: "V1"
